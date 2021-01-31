@@ -24,23 +24,28 @@ namespace VMDInverter
             string[] filePathes = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             foreach (var filePath in filePathes)
             {
-                try
-                {
-                    var outName = Path.GetFileNameWithoutExtension(filePath) + "_reverse.vmd";
-                    var outPath = Path.Join(Path.GetDirectoryName(filePath), outName);
+                Invert(filePath);
+            }
+        }
 
-                    using (BinaryReader reader = new(new FileStream(filePath,FileMode.Open), MikuMikuMethods.Encoding.ShiftJIS))
-                    using (BinaryWriter writer = new(new FileStream(outPath, FileMode.Create),MikuMikuMethods.Encoding.ShiftJIS))
-                    {
-                        VocaloidMotionData vmd = new(reader);
-                        VMDInverter.Do(vmd);
-                        vmd.Write(writer);
-                    }
-                }
-                catch (Exception ex)
+        private static void Invert(string filePath)
+        {
+            try
+            {
+                var outName = Path.GetFileNameWithoutExtension(filePath) + "_reverse.vmd";
+                var outPath = Path.Join(Path.GetDirectoryName(filePath), outName);
+
+                using (BinaryReader reader = new(new FileStream(filePath, FileMode.Open), MikuMikuMethods.Encoding.ShiftJIS))
+                using (BinaryWriter writer = new(new FileStream(outPath, FileMode.Create), MikuMikuMethods.Encoding.ShiftJIS))
                 {
-                    MessageBox.Show(ex.Message, $"Error in {Path.GetFileName(filePath)}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    VocaloidMotionData vmd = new(reader);
+                    VMDInverter.Do(vmd);
+                    vmd.Write(writer);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, $"Error in {Path.GetFileName(filePath)}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
