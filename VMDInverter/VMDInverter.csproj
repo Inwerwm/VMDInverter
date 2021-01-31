@@ -6,4 +6,10 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="MikuMikuMethods">
+      <HintPath>..\..\MikuMikuMethods\MikuMikuMethodsCore\bin\Release\net5.0\MikuMikuMethods.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
