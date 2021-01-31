@@ -35,8 +35,8 @@ namespace VMDInverter
                 var outName = Path.GetFileNameWithoutExtension(filePath) + "_reverse.vmd";
                 var outPath = Path.Join(Path.GetDirectoryName(filePath), outName);
 
-                using (BinaryReader reader = new(new FileStream(filePath, FileMode.Open), MikuMikuMethods.Encoding.ShiftJIS))
-                using (BinaryWriter writer = new(new FileStream(outPath, FileMode.Create), MikuMikuMethods.Encoding.ShiftJIS))
+                using (BinaryReader reader = new(new FileStream(filePath, FileMode.Open)))
+                using (BinaryWriter writer = new(new FileStream(outPath, FileMode.Create)))
                 {
                     VocaloidMotionData vmd = new(reader);
                     VMDInverter.Do(vmd);
