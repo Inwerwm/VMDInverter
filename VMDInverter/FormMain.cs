@@ -28,7 +28,7 @@ namespace VMDInverter
             }
         }
 
-        private static void Invert(string filePath)
+        private void Invert(string filePath)
         {
             try
             {
@@ -39,7 +39,10 @@ namespace VMDInverter
                 using (BinaryWriter writer = new(new FileStream(outPath, FileMode.Create)))
                 {
                     VocaloidMotionData vmd = new(reader);
-                    VMDInverter.ReverseTime(vmd);
+                    if (checkBoxTime.Checked)
+                        VMDInverter.ReverseTime(vmd);
+                    if (checkBoxCurve.Checked)
+                        VMDInverter.ReverseInterpolation(vmd);
                     vmd.Write(writer);
                 }
             }
