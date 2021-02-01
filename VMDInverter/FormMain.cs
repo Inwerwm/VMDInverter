@@ -39,7 +39,7 @@ namespace VMDInverter
                 using (BinaryWriter writer = new(new FileStream(outPath, FileMode.Create)))
                 {
                     VocaloidMotionData vmd = new(reader);
-                    VMDInverter.Do(vmd);
+                    VMDInverter.ReverseTime(vmd);
                     vmd.Write(writer);
                 }
             }

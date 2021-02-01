@@ -1,4 +1,5 @@
-﻿using MikuMikuMethods.VMD;
+﻿using MikuMikuMethods;
+using MikuMikuMethods.VMD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace VMDInverter
 {
     static class VMDInverter
     {
-        public static void Do(VocaloidMotionData vmd)
+        public static void ReverseTime(VocaloidMotionData vmd)
         {
             List<IVocaloidFrame> allFrames = vmd.Frames;
 
@@ -19,6 +20,21 @@ namespace VMDInverter
             {
                 frame.Frame = maxTime - frame.Frame;
             }
+        }
+
+        public static void ReverseInterpolation(VocaloidMotionData vmd)
+        {
+            foreach (var pair in vmd.CameraFrames.SelectMany(frame => frame.InterpolationCurves))
+            {
+                ReverseInterpolation(pair.Value);
+            }
+        }
+
+        private static void ReverseInterpolation(InterpolationCurve curve)
+        {
+            var bytes = curve.ToBytes().Select(b=> (byte)(0x7F - b)).ToArray();
+            curve.EarlyControlePoint = (bytes[2], bytes[3]);
+            curve.LateControlePoint = (bytes[0], bytes[1]);
         }
     }
 }
